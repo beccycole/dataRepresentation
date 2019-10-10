@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<library>
+
+  <book category="cookery">
+    <title lang="en">Mary Berry Everyday</title>
+    <author>Mary Berry</author>
+    <isbn>1785941682</isbn>
+  </book>
+
+  <book category="cookery">
+    <title lang="en">Jamie's 15-Minute Meals</title>
+    <author>Jamie Oliver</author>
+    <isbn>1405932317</isbn>
+  </book>
+
+  <book category="technical">
+    <title lang="en">JavaScript: The Good Parts</title>
+    <author>Douglas Crockford</author>
+    <isbn>0596517742</isbn>
+  </book>
+
+  <book category="technical">
+    <title lang="en">Learning Ruby</title>
+    <author>Michael James Fitzgerald</author>
+    <isbn>0596529864</isbn>
+  </book>
+
+</library>
