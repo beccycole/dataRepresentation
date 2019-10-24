@@ -19,5 +19,5 @@ for listing in listings:
     address = listing.find(class_="PropertyListingCard__Address").text
     entryList.append(address)
 
-    home_writer.writerow(entryList)
+home_writer.writerow(entryList)
 home_file.close()
