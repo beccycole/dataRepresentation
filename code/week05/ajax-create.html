@@ -2,19 +2,18 @@
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <title>
-            test create
+            Test Create
         </title>
     </head>
     <body>
         <button onclick="createCar()">create</button>
-        <div id="output"></div>
     </body>
     <script>
         function createCar(){
             var car = {"reg":"12 D 1234","make":"Fiat","model":"Punto","price":3000}
             console.log(JSON.stringify(car));
             $.ajax({
-                "url": "http://127.0.0.1:5000/cars",
+                "url": "cars",
                 "method":"POST",
                 "data":JSON.stringify(car),
                 "dataType": "JSON",
