@@ -63,12 +63,13 @@ def main():
 
     for message in messages:
        #print(message['id'])
-        completeMessage = service.users().messages().get(userId='me', id = messages[0]['id']).execute()
+        completeMessage = service.users().messages().get(userId='me', id = message['id']).execute()
         #print(completeMessage['snippet'])
         headers = completeMessage['payload']['headers']
         #print (headers)
         snippet = completeMessage['snippet']
         subject = list(filter(lambda h: h['name']=='Subject',headers))[0]['value']
+        print(subject)
         massageTo = list(filter(lambda h: h['name']=='To',headers))[0]['value']
         messageFrom = list(filter(lambda h: h['name']=='From',headers))[0]['value']
         #print (messageFrom)
