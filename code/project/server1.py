@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request, abort
+from filmDAO import filmDAO
 
 app = Flask(__name__, static_url_path='', static_folder='.')
 
@@ -18,16 +19,15 @@ nextId=4
 #curl "http://127.0.0.1:5000/films"
 @app.route('/films')
 def getAll():
-    return jsonify(films)
+    results = filmDAO.getAll()
+    return jsonify(results)
 
 #curl "http://127.0.0.1:5000/films/2"
 @app.route('/films/<int:id>')
 def findById(id):
-    foundFilms = list(filter(lambda t: t['id'] == id, films))
-    if len(foundFilms) == 0:
-        return jsonify ({}) , 204
+    foundFilm = filmDAO.findById(id)
 
-    return jsonify(foundFilms[0])
+    return jsonify(foundFilm)
 
 #curl  -i -H "Content-Type:application/json" -X POST -d "{\"Title\":\"Elf\",\"Year\":2002,\"Budget\":11000000,\"Director\":\"Jon Favreau\"}" http://127.0.0.1:5000/films
 @app.route('/films', methods=['POST'])
