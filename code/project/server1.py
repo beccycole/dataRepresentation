@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request, abort
+from filmDAO import filmDAO
 
 app = Flask(__name__, static_url_path='', static_folder='.')
 
@@ -17,20 +18,20 @@ nextId=4
 
 @app.route('/films')
 def getAll():
-    return jsonify(films)
+    results = filmDAO.getAll()
+    return jsonify(results)
 
 #curl http://127.0.0.1:5000/films/2
 @app.route('/films/<int:id>')
 def findById(id):
-    foundFilms = list(filter(lambda t: t['id']==id, films))
-    if len(foundFilms) == 0:
-        return jsonify ({}) , 204
-    return jsonify(foundFilms[0])
+    foundFilm = filmDAO.findById(id)
+
+    return jsonify(foundFilm)
 
 #curl  -i -H "Content-Type:application/json" -X POST -d "{\"Title\":\"Due Date\",\"Year\":2001,\"Budget\":60000000,\"Director\":\"Todd Phillips\"}" http://127.0.0.1:5000/films
 @app.route('/films', methods=['POST'])
 def create():
-    global nextId
+   
     if not request.json:
         abort(400)
     
@@ -41,17 +42,18 @@ def create():
         "Budget": request.json['Budget'],
         "Director": request.json['Director'],
     }
-    nextId += 1
-    films.append(film)
+    values = (film['Title'], film['Year'], film['Budget'], film['Director'])
+    newId = filmDAO.create(values)
+    film['id'] = newId
     return jsonify(film)
 
 #curl  -i -H "Content-Type:application/json" -X PUT -d "{\"Budget\":70000000}" http://127.0.0.1:5000/films/1
 @app.route('/films/<int:id>', methods=['PUT'])
 def update(id):
-    foundFilms = list(filter(lambda t: t['id']== id, films))
-    if (len(foundFilms) == 0):
+    foundFilm = filmDAO.findByID(id)
+    if not foundFilm:
         abort(404)
-    foundFilm = foundFilms[0]
+    
     if not request.json:
         abort(400)
     reqJson = request.json
@@ -69,17 +71,15 @@ def update(id):
     if 'Director' in reqJson:
         foundFilm['Director'] = reqJson['Director']
 
+    values = (foundFilm['Title'], foundFilm['Year'], foundFilm['Budget'], foundFilm['Director'], foundFilm['id'])
+    filmDAO.update(values)
     return jsonify(foundFilm)
 
 #curl -X DELETE http://127.0.0.1:5000/films/5
 @app.route('/films/<int:id>', methods=['DELETE'])
 def delete(id):
-    foundFilms = list(filter(lambda t: t['id']== id, films))
-    if (len(foundFilms) == 0):
-        abort(404)
-    films.remove(foundFilms[0])
+    filmDAO.delete(id)
     return jsonify({"done":True})
-
 
 
 if __name__ == '__main__' :

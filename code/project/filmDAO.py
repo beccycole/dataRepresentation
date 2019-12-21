@@ -20,8 +20,12 @@ class FilmDAO:
         cursor = self.db.cursor()
         sql="select * from film"
         cursor.execute(sql)
-        result = cursor.fetchall()
-        return result
+        results = cursor.fetchall()
+        returnArray = []
+        for result in results:
+            returnArray.append(self.convertToDictionary(result))
+
+        return returnArray
 
     def findByID(self, id):
         cursor = self.db.cursor()
@@ -30,7 +34,8 @@ class FilmDAO:
 
         cursor.execute(sql, values)
         result = cursor.fetchone()
-        return result
+        return self.convertToDictionary(result)
+
     def update(self, values):
         cursor = self.db.cursor()
         sql="update film set title= %s, year=%s, budget=%s, director=%s  where id = %s"
@@ -45,5 +50,16 @@ class FilmDAO:
 
         self.db.commit()
         print("delete done")
+        
+    def convertToDictionary(self, result):
+        colnames=['id','title','year','budget','director']
+        item = {}
+
+        if result:
+
+            for i, colName in enumerate(colnames):
+                value = result[i]
+                item[colName] = value
+        return(item)
 
 filmDAO = FilmDAO()
