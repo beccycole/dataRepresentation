@@ -3,13 +3,6 @@ from filmDAO import filmDAO
 
 app = Flask(__name__, static_url_path='', static_folder='.')
 
-films=[
-    { "id":1, "Title":"Toy Story", "Year":1995, "Budget":50000000, "Director":"John Lasseter"},
-    { "id":2, "Title":"Casino", "Year":1995, "Budget":60000000, "Director":"Martin Scorsese"},
-    { "id":3, "Title":"The Hangover", "Year":2010, "Budget":50000000, "Director":"Todd Phillips"}
-]
-nextId=4
-
 #app = Flask(__name__)
 
 #@app.route('/')
@@ -36,7 +29,6 @@ def create():
         abort(400)
     
     film = {
-        "id": nextId,
         "Title": request.json['Title'],
         "Year": request.json['Year'],
         "Budget": request.json['Budget'],
