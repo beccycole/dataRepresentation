@@ -59,7 +59,7 @@
         document.getElementById('doCreateButton').style.display="none"
         document.getElementById('doUpdateButton').style.display="block"
         var rowElement = buttonElement.parentNode.parentNode
-        // these is a way of finding the closest <tr> which would safer, closest()
+        
         
         var film = getFilmFromRow(rowElement)
         populateFormWithFilm(film)
@@ -74,8 +74,7 @@
         film.Director = form.querySelector('input[name="Director"]').value
         console.log(JSON.stringify(film))
         createFilmAjax(film)
-        
-        
+         
     }
     function doUpdate(){
         var film = getFilmFromForm();
@@ -123,7 +122,7 @@
         var film ={}
         film.id  = rowElement.getAttribute('id')
         film.Title = rowElement.cells[1].firstChild.textContent
-        film.Year = parseInt(rowElement.cells[3].firstChild.textContent,10)
+        film.Year = parseInt(rowElement.cells[2].firstChild.textContent,10)
         film.Budget = parseInt(rowElement.cells[3].firstChild.textContent,10)
         film.Director = rowElement.cells[4].firstChild.textContent
         return film
@@ -157,6 +156,7 @@
         return film
     }
     function getAllAjax(){
+        
         $.ajax({
             "url": "http://127.0.0.1:5000/films",
             "method":"GET",
